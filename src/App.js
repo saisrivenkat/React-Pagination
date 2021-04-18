@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
+import Dropdown from './Components/Dropdown'
 import Table from './Components/Table'
 import Pagination from './Components/Pagination'
 
 function App() {
-
+  const [value, setvalue] = React.useState(10)
   const [posts, setposts] = React.useState([])
   const [currentpage, setcurrentpage] = React.useState(1)
-  const [page] = React.useState(10)
+  const [page] = React.useState(value)
+
+  const hanldechange = (e) => {
+    setvalue(e.target.value)
+  }
   useEffect(() => {
     const data = async () => {
       const url = 'https://jsonplaceholder.typicode.com/posts'
@@ -17,8 +22,8 @@ function App() {
     }
     data()
   }, [])
-  const lastpost = currentpage * page
-  const firstpost = lastpost - page
+  const lastpost = currentpage * value
+  const firstpost = lastpost - value
   const post = posts.slice(firstpost, lastpost)
 
   const previous = () => {
@@ -42,8 +47,9 @@ function App() {
 
   return (
     <div className="App">
+      <Dropdown value={value} change={(e) => hanldechange(e)} />
       <Table posts={post} />
-      <Pagination page={page} totallength={posts.length} paginate={paginate} previous={() => previous()} next={() => next()} />
+      <Pagination page={value} totallength={posts.length} paginate={paginate} previous={() => previous()} next={() => next()} />
     </div>
   );
 }
