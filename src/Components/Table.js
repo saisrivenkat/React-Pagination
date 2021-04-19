@@ -1,6 +1,7 @@
+/* eslint-disable array-callback-return */
 import React from 'react'
 
-function Table({ posts }) {
+function Table({ posts, search }) {
     return (
         <div class="container ">
             <table class="table  table-striped">
@@ -12,7 +13,16 @@ function Table({ posts }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {posts.map(post => {
+
+                    {posts.filter((post) => {
+                        if (search === "") {
+                            return post
+                        }
+                        else if (post.title.toLowerCase().includes(search.toLowerCase())) {
+                            return post
+
+                        }
+                    }).map(post => {
                         return (
                             <tr>
                                 <th>{post.id}</th>

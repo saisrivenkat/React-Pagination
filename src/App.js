@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Search from './Components/Search'
 import Dropdown from './Components/Dropdown'
 import Table from './Components/Table'
 import Pagination from './Components/Pagination'
@@ -7,10 +8,14 @@ function App() {
   const [value, setvalue] = React.useState(10)
   const [posts, setposts] = React.useState([])
   const [currentpage, setcurrentpage] = React.useState(1)
-  const [page] = React.useState(value)
+  //const [page] = React.useState(value)
+  const [search,setsearch]=React.useState('')
 
   const hanldechange = (e) => {
     setvalue(e.target.value)
+  }
+  const searchchange =(e) =>{
+    setsearch(e.target.value)
   }
   useEffect(() => {
     const data = async () => {
@@ -47,8 +52,9 @@ function App() {
 
   return (
     <div className="App">
+      <Search change={(e)=>searchchange(e)} search={search} />
       <Dropdown value={value} change={(e) => hanldechange(e)} />
-      <Table posts={post} />
+      <Table posts={post} search={search} />
       <Pagination page={value} totallength={posts.length} paginate={paginate} previous={() => previous()} next={() => next()} />
     </div>
   );
